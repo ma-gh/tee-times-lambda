@@ -5,10 +5,12 @@ from typing import Dict, List
 
 from tee_time_checkers.baker import BakerTeeTimeChecker
 from tee_time_checkers.base_checker import TeeTimeChecker
-from tee_time_checkers.mile_square import MileSquareTeeTimeChecker
+from tee_time_checkers.mile_square_classic import MileSquareClassicTeeTimeChecker
+from tee_time_checkers.mile_square_players import MileSquarePlayersTeeTimeChecker
 
 COURSE_CHECKERS = {
-    "Mile Square Players Course": MileSquareTeeTimeChecker,
+    "Mile Square Players Course": MileSquarePlayersTeeTimeChecker,
+    "Mile Square Classic Course": MileSquareClassicTeeTimeChecker,
     "Baker": BakerTeeTimeChecker,
 }
 

@@ -23,7 +23,7 @@ URL = (
 API_DATE_FORMAT = r"%m-%d-%Y"
 
 
-class MileSquareTeeTimeChecker(TeeTimeChecker):
+class MileSquarePlayersTeeTimeChecker(TeeTimeChecker):
     def _get_tee_times(self, dt: datetime) -> List[str]:
         date_string = datetime.strftime(dt, API_DATE_FORMAT)
         data = json.loads(requests.get(URL.format(date_string)).text)
@@ -32,4 +32,4 @@ class MileSquareTeeTimeChecker(TeeTimeChecker):
 
 
 if __name__ == "__main__":
-    MileSquareTeeTimeChecker().find_ok_tee_times()
+    MileSquarePlayersTeeTimeChecker().find_ok_tee_times()
