@@ -1,18 +1,13 @@
 import setuptools
 
-with open("README.md") as fp:
-    long_description = fp.read()
-
-
 setuptools.setup(
     name="tee_times",
     version="0.0.1",
     description="An empty CDK Python app",
-    long_description=long_description,
     long_description_content_type="text/markdown",
     author="author",
-    package_dir={"": "tee_times"},
-    packages=setuptools.find_packages(where="tee_times"),
+    package_dir={"": "src"},
+    packages=setuptools.find_packages(where="src"),
     install_requires=[
         "aws-cdk.core==1.80.0",
     ],

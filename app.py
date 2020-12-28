@@ -23,10 +23,10 @@ class TeeTimesStack(core.Stack):
         # Webapp API Lambdas
         self.lambda_layers = self.create_lambda_layers()
         self.get_courses_lambda = self.create_lambda(
-            GET_COURSES_LAMBDA_NAME, "handler.get_courses", self.lambda_layers
+            GET_COURSES_LAMBDA_NAME, "api_lambdas.get_courses", self.lambda_layers
         )
         self.get_tee_times_lambda = self.create_lambda(
-            GET_TEE_TIMES_LAMBDA_NAME, "handler.get_tee_times", self.lambda_layers
+            GET_TEE_TIMES_LAMBDA_NAME, "api_lambdas.get_tee_times", self.lambda_layers
         )
 
         # Notify Lambda
@@ -49,14 +49,14 @@ class TeeTimesStack(core.Stack):
             lambda_name,
             runtime=aws_lambda.Runtime.PYTHON_3_8,
             handler=lambda_handler_path,
-            code=aws_lambda.Code.asset("./lambda"),
+            code=aws_lambda.Code.asset("./src"),
             timeout=core.Duration.seconds(300),
             layers=layers,
         )
 
     def create_notify_lambda(self, notify_topic, notify_bucket):
         _lambda = self.create_lambda(
-            NOTIFY_LAMBDA_NAME, "handler.notify_tee_times", self.lambda_layers
+            NOTIFY_LAMBDA_NAME, "notify_lambda.notify_tee_times", self.lambda_layers
         )
 
         _lambda.add_environment("EARLIEST_TIME", os.environ["EARLIEST_TIME"])
