@@ -84,6 +84,8 @@ class TeeTimesStack(core.Stack):
         topic = aws_sns.Topic(self, id=topic_name, display_name=topic_name)
         for email in os.environ["OUTPUT_TOPIC_EMAILS"].split(","):
             topic.add_subscription(aws_sns_subscriptions.EmailSubscription(email))
+        for number in os.environ["OUTPUT_TOPIC_NUMBERS"].split(","):
+            topic.add_subscription(aws_sns_subscriptions.SmsSubscription(number))
         return topic
 
     def create_notify_bucket(self):
