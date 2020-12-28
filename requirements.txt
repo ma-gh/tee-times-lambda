@@ -1,4 +1,10 @@
 aws-cdk.core
 aws-cdk.aws_lambda
+aws_cdk.aws_sns
+aws_cdk.aws_sns_subscriptions
+aws_cdk.aws_s3
+aws_cdk.aws_events
+aws_cdk.aws_events_targets
 
 requests
+boto3
