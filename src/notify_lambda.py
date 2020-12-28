@@ -73,18 +73,19 @@ def notify_tee_times(event=None, context=None):
     earliest_time, latest_time, days_ahead, courses = _parse_env_vars()
     validate_courses(courses)
 
-    if response := run(courses, earliest_time, latest_time, days_ahead):
-        curr_tee_times = _format_tee_times(response)
-        print(f"Current tee times found: {curr_tee_times}")
+    response = run(courses, earliest_time, latest_time, days_ahead)
 
-        prev_tee_times = _get_prev_tee_times()
-        print(f"Prev tee times found: {prev_tee_times}")
+    curr_tee_times = _format_tee_times(response)
+    print(f"Current tee times found: {curr_tee_times}")
 
-        added, removed = _get_diff(prev_tee_times, curr_tee_times)
-        print(f"{added=}, {removed=}")
+    prev_tee_times = _get_prev_tee_times()
+    print(f"Prev tee times found: {prev_tee_times}")
 
-        _put_new_tee_times(curr_tee_times)
+    added, removed = _get_diff(prev_tee_times, curr_tee_times)
+    print(f"{added=}, {removed=}")
+    _put_new_tee_times(curr_tee_times)
 
+    if added or removed:
         subject, message = _format_message(added, removed)
         SNS.publish(TopicArn=OUTPUT_TOPIC_ARN, Subject=subject, Message=message)
         print("Published message successfully")
