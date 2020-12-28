@@ -65,6 +65,7 @@ def _format_message(added, removed):
         message += f"Newly available:\n{json.dumps(added, indent=4)}\n"
     if removed:
         message += f"No longer available:\n{json.dumps(removed, indent=4)}\n"
+    message += "https://foreupsoftware.com/index.php/booking/20096/3759#teetimes"
     return subject, message
 
 
