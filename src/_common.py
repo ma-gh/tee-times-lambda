@@ -12,7 +12,7 @@ class UnknownCourseError(InputError):
     pass
 
 
-InputTuple = namedtuple("InputTuple", "earliest_time latest_time days_ahead courses")
+InputTuple = namedtuple("InputTuple", "earliest_time latest_time days_ahead courses valid_days")
 
 
 def validate_courses(courses: List[str]):

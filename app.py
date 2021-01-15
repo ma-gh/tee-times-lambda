@@ -62,6 +62,7 @@ class TeeTimesStack(core.Stack):
         _lambda.add_environment("EARLIEST_TIME", os.environ["EARLIEST_TIME"])
         _lambda.add_environment("LATEST_TIME", os.environ["LATEST_TIME"])
         _lambda.add_environment("COURSES", os.environ["COURSES"])
+        _lambda.add_environment("VALID_DAYS", os.environ["VALID_DAYS"])
         _lambda.add_environment("OUTPUT_TOPIC_ARN", notify_topic.topic_arn)
         _lambda.add_environment("NOTIFY_TEE_TIMES_BUCKET_NAME", notify_bucket.bucket_name)
 

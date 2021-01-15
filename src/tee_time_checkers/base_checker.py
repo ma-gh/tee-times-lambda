@@ -7,10 +7,11 @@ from typing import List
 
 
 class TeeTimeChecker(ABC):
-    def __init__(self, earliest_time, latest_time, days_ahead):
+    def __init__(self, earliest_time, latest_time, days_ahead, valid_days):
         self.earliest_time = earliest_time
         self.latest_time = latest_time
         self.days_ahead = int(days_ahead) if days_ahead else 8
+        self.valid_days = set(valid_days) if valid_days else set(range(0, 7))
 
         self._queue = Queue(self.days_ahead * 2)
         self._results = []
@@ -26,9 +27,11 @@ class TeeTimeChecker(ABC):
         pm_offset = (12 * 60) if ("PM" in time_string.upper() and hours < 12) else 0
         return pm_offset + hours * 60 + minutes
 
-    def _get_dates_ahead(self) -> List[datetime]:
+    def _get_dates(self) -> List[datetime]:
         today = datetime.now()
-        return [today + timedelta(days=i) for i in range(self.days_ahead)]
+        dates_ahead = [today + timedelta(days=i) for i in range(self.days_ahead)]
+        valid_dates = list(filter(lambda dt: dt.weekday() in self.valid_days, dates_ahead))
+        return valid_dates
 
     def _is_ok_time(self, tee_time: str) -> bool:
         tee_time_minutes = TeeTimeChecker._to_minutes(tee_time)
@@ -36,10 +39,9 @@ class TeeTimeChecker(ABC):
         latest_minutes = TeeTimeChecker._to_minutes(self.latest_time)
         return earliest_minutes <= tee_time_minutes <= latest_minutes
 
-
     def _get_tee_times_concurrent(self):
         # Pull a request
-        dt =  self._queue.get()
+        dt = self._queue.get()
 
         # Work on the request
         result = self._get_tee_times(dt)
@@ -49,7 +51,7 @@ class TeeTimeChecker(ABC):
         self._queue.task_done()
 
     def _get_all_tee_times(self):
-        dates = self._get_dates_ahead()
+        dates = self._get_dates()
 
         # Create threads
         for _ in range(len(dates)):

@@ -5,7 +5,7 @@ from typing import List
 import boto3
 import botocore
 
-from _common import InputError, InputTuple, validate_courses
+from _common import InputError, validate_courses
 from tee_time_checkers.driver import run
 
 NOTIFY_TEE_TIMES_BUCKET_NAME = os.environ["NOTIFY_TEE_TIMES_BUCKET_NAME"]
@@ -15,14 +15,14 @@ S3_OBJ = boto3.resource("s3").Object(NOTIFY_TEE_TIMES_BUCKET_NAME, "notify-tee-t
 SNS = boto3.client("sns")
 
 
-def _parse_env_vars() -> InputTuple:
+def _parse_env_vars():
     try:
-        return InputTuple(
-            earliest_time=os.environ["EARLIEST_TIME"],
-            latest_time=os.environ["LATEST_TIME"],
-            days_ahead=os.environ.get("DAYS_AHEAD"),
-            courses=os.environ["COURSES"].split(","),
-        )
+        earliest_time = os.environ["EARLIEST_TIME"]
+        latest_time = os.environ["LATEST_TIME"]
+        days_ahead = os.environ.get("DAYS_AHEAD")
+        courses = os.environ["COURSES"].split(",")
+        valid_days = list(map(int, os.environ["VALID_DAYS"].split(",")))
+        return earliest_time, latest_time, days_ahead, courses, valid_days
     except KeyError as err:
         raise InputError() from err
 
@@ -70,10 +70,10 @@ def _format_message(added, removed):
 
 
 def notify_tee_times(event=None, context=None):
-    earliest_time, latest_time, days_ahead, courses = _parse_env_vars()
+    earliest_time, latest_time, days_ahead, courses, valid_days = _parse_env_vars()
     validate_courses(courses)
 
-    response = run(courses, earliest_time, latest_time, days_ahead)
+    response = run(courses, earliest_time, latest_time, days_ahead, valid_days)
 
     curr_tee_times = _format_tee_times(response)
     print(f"Current tee times found: {curr_tee_times}")
