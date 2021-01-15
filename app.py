@@ -69,7 +69,7 @@ class TeeTimesStack(core.Stack):
             self,
             f"{NOTIFY_LAMBDA_NAME}Rule",
             schedule=aws_events.Schedule.cron(
-                minute="*/5", hour="*", month="*", week_day="*", year="*"
+                minute="*/1", hour="*", month="*", week_day="*", year="*"
             ),
         )
         rule.add_target(aws_events_targets.LambdaFunction(_lambda))
