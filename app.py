@@ -51,6 +51,7 @@ class TeeTimesStack(core.Stack):
             handler=lambda_handler_path,
             code=aws_lambda.Code.asset("./src"),
             timeout=core.Duration.seconds(300),
+            memory_size=1024,
             layers=layers,
         )
 
