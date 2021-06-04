@@ -9,6 +9,7 @@ from tee_time_checkers.mile_square_classic import MileSquareClassicTeeTimeChecke
 from tee_time_checkers.mile_square_players import MileSquarePlayersTeeTimeChecker
 from tee_time_checkers.recreation_park import RecreationParkTeeTimeChecker
 from tee_time_checkers.skylinks import SkylinksTeeTimeChecker
+from tee_time_checkers.westridge import WestridgeTeeTimeChecker
 
 COURSE_CHECKERS = {
     "Mile Square Players Course": MileSquarePlayersTeeTimeChecker,
@@ -17,6 +18,7 @@ COURSE_CHECKERS = {
     "La Mirada": LaMiradaTeeTimeChecker,
     "Recreation Park": RecreationParkTeeTimeChecker,
     "Skylinks": SkylinksTeeTimeChecker,
+    "Westridge": WestridgeTeeTimeChecker,
 }
 
 
