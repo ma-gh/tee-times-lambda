@@ -39,7 +39,7 @@ class TeeTimesStack(core.Stack):
             aws_lambda.LayerVersion.from_layer_version_arn(
                 self,
                 "RequestsLayer",
-                "arn:aws:lambda:us-west-1:770693421928:layer:Klayers-python38-requests:13",
+                "arn:aws:lambda:us-west-1:770693421928:layer:Klayers-python38-requests:17",
             ),
         ]
 
